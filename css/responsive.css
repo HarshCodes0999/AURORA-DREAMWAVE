@@ -178,3 +178,18 @@
     opacity: .35;
   }
 }
+
+@media (max-width: 650px) {
+  .search-panel {
+    flex-wrap: nowrap;
+  }
+
+  .welcome-overlay {
+    padding: 14px;
+  }
+
+  .welcome-card {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}

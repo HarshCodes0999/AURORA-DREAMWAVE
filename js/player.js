@@ -6,8 +6,7 @@
   const $ = id => document.getElementById(id);
 
   const elements = {
-    url: $("youtube-url"),
-    add: $("add-track-button"),
+    albumArt: $("album-art"),
     title: $("current-title"),
     artist: $("current-artist"),
     play: $("play-button"),
@@ -44,42 +43,6 @@
   let shuffle = false;
   let repeat = false;
   let seeking = false;
-
-  function videoIdFrom(input) {
-    const value = input.trim();
-
-    if (/^[a-zA-Z0-9_-]{11}$/.test(value)) {
-      return value;
-    }
-
-    try {
-      const url = new URL(value);
-      let id = "";
-
-      if (url.hostname === "youtu.be" ||
-          url.hostname.endsWith(".youtu.be")) {
-        id = url.pathname.split("/").filter(Boolean)[0] || "";
-      } else if (
-        url.hostname === "youtube.com" ||
-        url.hostname.endsWith(".youtube.com") ||
-        url.hostname === "youtube-nocookie.com" ||
-        url.hostname.endsWith(".youtube-nocookie.com")
-      ) {
-        id = url.searchParams.get("v") || "";
-
-        if (!id) {
-          const parts = url.pathname.split("/").filter(Boolean);
-          if (["embed", "shorts", "live"].includes(parts[0])) {
-            id = parts[1] || "";
-          }
-        }
-      }
-
-      return /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null;
-    } catch {
-      return null;
-    }
-  }
 
   function notify(message) {
     let toast = $("aurora-toast");
@@ -127,8 +90,22 @@
 
     elements.title.textContent = track?.title || "Nothing playing";
     elements.artist.textContent = track
-      ? "YouTube • AURORA DREAMWAVE"
+      ? (track.channelTitle || "Unknown artist")
       : "Choose your first track";
+
+    if (elements.albumArt) {
+      elements.albumArt.replaceChildren();
+
+      if (track?.thumbnail) {
+        const image = document.createElement("img");
+        image.src = track.thumbnail;
+        image.alt = "";
+        image.loading = "lazy";
+        elements.albumArt.appendChild(image);
+      } else {
+        elements.albumArt.textContent = "♫";
+      }
+    }
 
     updateFavoriteButton();
   }
@@ -150,14 +127,27 @@
       const row = document.createElement("div");
       row.className = "track-row";
 
+      const artwork = document.createElement("div");
+      artwork.className = "track-row-art";
+
+      if (track.thumbnail) {
+        const image = document.createElement("img");
+        image.src = track.thumbnail;
+        image.alt = "";
+        image.loading = "lazy";
+        artwork.appendChild(image);
+      } else {
+        artwork.textContent = "♫";
+      }
+
       const info = document.createElement("div");
       info.className = "track-row-info";
 
-      const title = document.createElement("strong");
+      const title = document.createElement("h4");
       title.textContent = track.title;
 
-      const subtitle = document.createElement("span");
-      subtitle.textContent = "YouTube";
+      const subtitle = document.createElement("p");
+      subtitle.textContent = track.channelTitle || "YouTube";
 
       info.append(title, subtitle);
 
@@ -173,7 +163,7 @@
       remove.setAttribute("aria-label", `Remove ${track.title}`);
       remove.addEventListener("click", () => removeTrack(track.id));
 
-      row.append(info, play, remove);
+      row.append(artwork, info, play, remove);
       container.appendChild(row);
     });
   }
@@ -225,38 +215,39 @@
     elements.play.textContent = "Ⅱ";
   }
 
-  function addTrack() {
-    const raw = elements.url.value;
-    const id = videoIdFrom(raw);
-
-    if (!id) {
-      notify("Please enter a valid YouTube URL or video ID.");
-      return;
-    }
-
-    const existing = library.find(track => track.id === id);
-
-    if (existing) {
-      elements.url.value = "";
-      playTrack(id);
-      notify("Track already in your library.");
+  function addSearchResult(result) {
+    if (!result || !/^[a-zA-Z0-9_-]{11}$/.test(result.id || "")) {
+      notify("This search result is not valid.");
       return;
     }
 
     const track = {
-      id,
-      title: `YouTube Track ${library.length + 1}`,
+      id: result.id,
+      title: String(result.title || "Untitled track"),
+      channelTitle: String(result.channelTitle || "YouTube"),
+      thumbnail: String(result.thumbnail || ""),
       addedAt: Date.now()
     };
 
-    library.push(track);
-    elements.url.value = "";
+    const existingIndex = library.findIndex(item => item.id === track.id);
 
+    if (existingIndex >= 0) {
+      library[existingIndex] = {
+        ...library[existingIndex],
+        ...track
+      };
+      persist();
+      renderAll();
+      playTrack(track.id);
+      notify("Playing from your library.");
+      return;
+    }
+
+    library.push(track);
     persist();
     renderAll();
-    playTrack(id);
-
-    notify("Track added to your library!");
+    playTrack(track.id);
+    notify("Added to your library!");
   }
 
   function removeTrack(id) {
@@ -319,16 +310,10 @@
     playTrack(library[next].id);
   }
 
-  elements.add?.addEventListener("click", addTrack);
-
-  elements.url?.addEventListener("keydown", event => {
-    if (event.key === "Enter") addTrack();
-  });
-
   elements.play?.addEventListener("click", () => {
     if (!currentTrack()) {
       if (library.length) playTrack(library[0].id);
-      else notify("Add a YouTube track first.");
+      else notify("Search for a track first.");
       return;
     }
 
@@ -406,7 +391,7 @@
   }, 500);
 
   window.AuroraPlayer = {
-    addTrack,
+    addSearchResult,
     playTrack,
     nextTrack,
     previousTrack,

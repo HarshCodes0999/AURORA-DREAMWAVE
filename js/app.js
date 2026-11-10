@@ -4,7 +4,6 @@
   "use strict";
 
   const $ = id => document.getElementById(id);
-
   const navItems = document.querySelectorAll(".nav-item");
 
   const pages = {
@@ -15,6 +14,12 @@
     recent: $("recent-page")
   };
 
+  function focusSearch() {
+    window.setTimeout(() => {
+      window.AuroraSearch?.focus();
+    }, 350);
+  }
+
   function showPage(pageName) {
     if (!pages[pageName]) return;
 
@@ -24,7 +29,6 @@
 
     navItems.forEach(button => {
       const active = button.dataset.page === pageName;
-
       button.classList.toggle("active", active);
 
       if (active) {
@@ -36,6 +40,8 @@
 
     document.querySelector(".main-content")
       ?.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (pageName === "search") focusSearch();
   }
 
   navItems.forEach(button => {
@@ -44,16 +50,12 @@
     });
   });
 
-  $("explore-button")?.addEventListener("click", () => {
-    const input = $("youtube-url");
+  function openSearch() {
+    showPage("search");
+  }
 
-    input?.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
-
-    setTimeout(() => input?.focus(), 400);
-  });
+  $("explore-button")?.addEventListener("click", openSearch);
+  $("home-search-button")?.addEventListener("click", openSearch);
 
   function renderFeatured() {
     const container = $("featured-grid");
@@ -74,7 +76,7 @@
       heading.textContent = "Your sound journey starts here";
 
       const description = document.createElement("p");
-      description.textContent = "Add a YouTube video to begin listening.";
+      description.textContent = "Discover a song and build your personal library.";
 
       card.append(symbol, heading, description);
       container.appendChild(card);
@@ -87,13 +89,22 @@
 
       const artwork = document.createElement("div");
       artwork.className = "featured-art";
-      artwork.textContent = "♫";
+
+      if (track.thumbnail) {
+        const image = document.createElement("img");
+        image.src = track.thumbnail;
+        image.alt = "";
+        image.loading = "lazy";
+        artwork.appendChild(image);
+      } else {
+        artwork.textContent = "♫";
+      }
 
       const heading = document.createElement("h3");
       heading.textContent = track.title;
 
       const description = document.createElement("p");
-      description.textContent = "YouTube • Your Library";
+      description.textContent = track.channelTitle || "YouTube";
 
       const button = document.createElement("button");
       button.className = "primary-button";
@@ -110,21 +121,44 @@
 
   document.addEventListener("aurora:library-updated", renderFeatured);
 
-  // Keep featured tracks synchronized.
-  const originalGetLibrary = window.AuroraPlayer?.getLibrary;
+  function setupWelcome() {
+    const overlay = $("welcome-overlay");
+    const startButton = $("welcome-start-button");
+    const skipButton = $("welcome-skip-button");
 
-  if (originalGetLibrary) {
-    renderFeatured();
+    if (!overlay) return;
 
-    const observer = new MutationObserver(renderFeatured);
-    const library = $("library-list");
+    let alreadySeen = false;
 
-    if (library) {
-      observer.observe(library, {
-        childList: true,
-        subtree: true
-      });
+    try {
+      alreadySeen = localStorage.getItem("aurora_welcome_seen") === "true";
+    } catch {
+      alreadySeen = false;
     }
+
+    if (!alreadySeen) {
+      overlay.hidden = false;
+    }
+
+    function closeWelcome(goToSearch) {
+      overlay.hidden = true;
+
+      try {
+        localStorage.setItem("aurora_welcome_seen", "true");
+      } catch {
+        // Continue even if browser storage is unavailable.
+      }
+
+      if (goToSearch) openSearch();
+    }
+
+    startButton?.addEventListener("click", () => {
+      closeWelcome(true);
+    });
+
+    skipButton?.addEventListener("click", () => {
+      closeWelcome(false);
+    });
   }
 
   // Keyboard shortcuts.
@@ -150,9 +184,9 @@
     }
   });
 
-  // Start application.
   showPage("home");
   renderFeatured();
+  setupWelcome();
 
   console.log("✦ AURORA DREAMWAVE initialized.");
 })();
