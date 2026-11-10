@@ -128,17 +128,8 @@
 
     if (!overlay) return;
 
-    let alreadySeen = false;
-
-    try {
-      alreadySeen = localStorage.getItem("aurora_welcome_seen") === "true";
-    } catch {
-      alreadySeen = false;
-    }
-
-    if (!alreadySeen) {
-      overlay.hidden = false;
-    }
+    // Show welcome popup every time the website is opened.
+    overlay.hidden = false;
 
     function closeWelcome(goToSearch) {
       overlay.hidden = true;
