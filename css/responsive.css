@@ -1,0 +1,180 @@
+@media (max-width: 900px) {
+  .sidebar {
+    width: 205px;
+    padding: 25px 15px;
+  }
+
+  .main-content {
+    padding: 30px 25px;
+  }
+
+  .hero-orb {
+    width: 180px;
+    height: 180px;
+    right: 7%;
+  }
+
+  .visualizer-panel {
+    left: 205px;
+  }
+
+  .music-player {
+    grid-template-columns: 1fr 1.4fr;
+  }
+
+  .player-extra {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .app-shell {
+    display: block;
+    padding-bottom: 155px;
+  }
+
+  .sidebar {
+    min-height: auto;
+    width: 100%;
+    height: auto;
+    padding: 14px 17px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .brand {
+    margin-bottom: 15px;
+  }
+
+  .nav-section {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 0;
+    overflow-x: auto;
+  }
+
+  .nav-label, .sidebar-footer {
+    display: none;
+  }
+
+  .nav-item {
+    width: auto;
+    white-space: nowrap;
+    padding: 10px 12px;
+    font-size: 13px;
+    margin: 0;
+  }
+
+  .main-content {
+    padding: 25px 17px;
+  }
+
+  .topbar {
+    margin-bottom: 24px;
+  }
+
+  .greeting h1 {
+    font-size: 28px;
+  }
+
+  .hero-card {
+    min-height: 265px;
+    padding: 27px 22px;
+    border-radius: 20px;
+  }
+
+  .hero-content h2 {
+    font-size: 36px;
+  }
+
+  .hero-content p {
+    max-width: 210px;
+    line-height: 1.6;
+  }
+
+  .hero-orb {
+    width: 125px;
+    height: 125px;
+    right: -22px;
+    top: 18%;
+    opacity: .65;
+  }
+
+  .hero-orb .orb-ring {
+    inset: -10px;
+  }
+
+  .content-section {
+    margin-top: 30px;
+  }
+
+  .add-music-panel {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .add-music-panel input {
+    width: 100%;
+  }
+
+  .visualizer-panel {
+    left: 0;
+    bottom: 115px;
+    height: 25px;
+  }
+
+  .music-player {
+    min-height: 100px;
+    padding: 10px 13px;
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .now-playing {
+    justify-content: center;
+  }
+
+  .album-art {
+    width: 37px;
+    height: 37px;
+  }
+
+  .player-center {
+    max-width: 100%;
+  }
+
+  .player-controls {
+    gap: 25px;
+    margin-bottom: 6px;
+  }
+
+  .player-controls .play-button {
+    width: 33px;
+    height: 33px;
+  }
+
+  .player-controls button {
+    font-size: 15px;
+  }
+
+  .progress-container {
+    gap: 7px;
+  }
+}
+
+@media (max-width: 380px) {
+  .nav-item {
+    padding: 9px;
+    gap: 7px;
+  }
+
+  .hero-content h2 {
+    font-size: 31px;
+  }
+
+  .hero-orb {
+    opacity: .35;
+  }
+}

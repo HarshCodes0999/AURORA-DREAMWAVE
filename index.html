@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#100d20">
+  <title>AURORA DREAMWAVE</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/player.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+  <div class="aurora-background">
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <div class="aurora aurora-three"></div>
+    <div class="stars"></div>
+  </div>
+
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">✦</div>
+        <div>
+          <h2>AURORA</h2>
+          <span>DREAMWAVE</span>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <p class="nav-label">DISCOVER</p>
+        <button class="nav-item active" data-page="home">⌂ <span>Home</span></button>
+        <button class="nav-item" data-page="search">⌕ <span>Search</span></button>
+        <button class="nav-item" data-page="library">♫ <span>Your Library</span></button>
+      </div>
+
+      <div class="nav-section">
+        <p class="nav-label">YOUR SPACE</p>
+        <button class="nav-item" data-page="favorites">♡ <span>Favorites</span></button>
+        <button class="nav-item" data-page="recent">◷ <span>Recently Played</span></button>
+      </div>
+
+      <div class="sidebar-footer">
+        <span class="status-dot"></span>
+        <span>YOUR PERSONAL SOUNDSPACE</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <header class="topbar">
+        <div class="greeting">
+          <span class="eyebrow">YOUR WORLD. YOUR SOUND.</span>
+          <h1>Feel the <span>frequency.</span></h1>
+        </div>
+
+        <button class="profile-button" aria-label="Profile">H</button>
+      </header>
+
+      <!-- HOME -->
+      <section class="page active" id="home-page">
+
+        <div class="hero-card">
+          <div class="hero-content">
+            <span class="eyebrow">WELCOME TO YOUR DREAMSCAPE</span>
+            <h2>Music beyond<br>the <span>ordinary.</span></h2>
+            <p>Escape into sound. Discover your own universe.</p>
+            <button class="primary-button" id="explore-button">
+              Explore music <span>↗</span>
+            </button>
+          </div>
+          <div class="hero-orb">
+            <div class="orb-ring"></div>
+            <div class="orb-core">✦</div>
+          </div>
+        </div>
+
+        <section class="content-section">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">YOUR NEXT OBSESSION</span>
+              <h2>Featured sound</h2>
+            </div>
+          </div>
+
+          <div class="featured-grid" id="featured-grid">
+            <div class="empty-card">
+              <span>♫</span>
+              <h3>Your sound journey starts here</h3>
+              <p>Add a YouTube video to begin listening.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">START LISTENING</span>
+              <h2>Add your music</h2>
+            </div>
+          </div>
+
+          <div class="add-music-panel">
+            <input
+              type="text"
+              id="youtube-url"
+              placeholder="Paste a YouTube video URL or video ID..."
+              autocomplete="off"
+            >
+            <button class="primary-button" id="add-track-button">
+              Add track +
+            </button>
+          </div>
+          <p class="helper-text">
+            Use a publicly accessible YouTube video that allows embedding.
+          </p>
+        </section>
+
+          <!-- OFFICIAL YOUTUBE EMBED -->
+  <section class="youtube-panel" id="youtube-player-container">
+    <div class="youtube-panel-heading">
+      <span class="eyebrow">NOW STREAMING</span>
+      <span class="youtube-panel-label">YouTube Player</span>
+    </div>
+    <div id="youtube-player"></div>
+  </section>
+
+      </section>
+
+      <!-- SEARCH -->
+      <section class="page" id="search-page">
+        <span class="eyebrow">FIND YOUR FREQUENCY</span>
+        <h2>Search music</h2>
+        <p>Search integration will be added in the next development phase.</p>
+        <div class="search-panel">
+          <input type="text" placeholder="Music search coming soon..." disabled>
+        </div>
+      </section>
+
+      <!-- LIBRARY -->
+      <section class="page" id="library-page">
+        <span class="eyebrow">YOUR COLLECTION</span>
+        <h2>Your library</h2>
+        <div class="track-list" id="library-list">
+          <p class="empty-message">Your library is waiting for its first track.</p>
+        </div>
+      </section>
+
+      <!-- FAVORITES -->
+      <section class="page" id="favorites-page">
+        <span class="eyebrow">SAVED WITH LOVE</span>
+        <h2>Favorites</h2>
+        <div class="track-list" id="favorites-list">
+          <p class="empty-message">Your favorite tracks will appear here.</p>
+        </div>
+      </section>
+
+      <!-- RECENT -->
+      <section class="page" id="recent-page">
+        <span class="eyebrow">BACK TO THE MOMENT</span>
+        <h2>Recently played</h2>
+        <div class="track-list" id="recent-list">
+          <p class="empty-message">Your listening history will appear here.</p>
+        </div>
+      </section>
+
+
+      <!-- CREATOR SOCIAL BRANDING -->
+      <section class="creator-section">
+        <span class="eyebrow">BEHIND THE DREAM</span>
+        <h2>Connect with the <span>Creator.</span></h2>
+        <p>Designed and developed with curiosity, creativity and a love for technology.</p>
+
+        <div class="social-links">
+          <a href="https://instagram.com/harsh.exe_0999"
+             target="_blank" rel="noopener noreferrer">
+            <span>◎</span> Instagram
+          </a>
+
+          <a href="https://github.com/HarshCodes0999"
+             target="_blank" rel="noopener noreferrer">
+            <span>⌘</span> GitHub
+          </a>
+
+          <a href="https://www.linkedin.com/in/harsh-vardhan-singh-chouhan-b7594a428/"
+             target="_blank" rel="noopener noreferrer">
+            <span>in</span> LinkedIn
+          </a>
+        </div>
+
+        <div class="copyright-footer" id="aurora-copyright">
+          <p>© 2026 AURORA DREAMWAVE</p>
+          <span>Designed &amp; Developed by Harsh Vardhan Singh Chouhan</span>
+          <span>All Rights Reserved.</span>
+        </div>
+
+        <div class="creator-signature">
+          AURORA DREAMWAVE · Crafted by Harsh
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MUSIC VISUALIZER -->
+  <div class="visualizer-panel" id="visualizer-panel">
+    <canvas id="visualizer"></canvas>
+  </div>
+
+  <!-- PLAYER -->
+  <footer class="music-player">
+
+    <div class="now-playing">
+      <div class="album-art" id="album-art">♫</div>
+      <div class="track-info">
+        <h3 id="current-title">Nothing playing</h3>
+        <p id="current-artist">Choose your first track</p>
+      </div>
+      <button class="favorite-button" id="favorite-button" aria-label="Favorite">♡</button>
+    </div>
+
+    <div class="player-center">
+      <div class="player-controls">
+        <button id="shuffle-button" title="Shuffle">⤨</button>
+        <button id="previous-button" title="Previous">◁</button>
+        <button class="play-button" id="play-button" title="Play">▶</button>
+        <button id="next-button" title="Next">▷</button>
+        <button id="repeat-button" title="Repeat">↻</button>
+      </div>
+
+      <div class="progress-container">
+        <span id="current-time">0:00</span>
+        <input type="range" id="progress-bar" min="0" max="100" value="0">
+        <span id="duration">0:00</span>
+      </div>
+    </div>
+
+    <div class="player-extra">
+      <button id="queue-button" title="Queue">☷</button>
+      <span>VOL</span>
+      <input type="range" id="volume-control" min="0" max="100" value="70">
+    </div>
+
+  </footer>
+
+
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="js/youtube.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/visualizer.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
