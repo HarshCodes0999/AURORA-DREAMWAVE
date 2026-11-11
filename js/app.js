@@ -123,34 +123,109 @@
 
   function setupWelcome() {
     const overlay = $("welcome-overlay");
-    const startButton = $("welcome-start-button");
-    const skipButton = $("welcome-skip-button");
+    const slider = $("welcome-slider");
+    const thumb = $("welcome-slider-thumb");
+    const label = $("welcome-slider-label");
 
-    if (!overlay) return;
+    if (!overlay || !slider || !thumb || !label) return;
 
-    // Show welcome popup every time the website is opened.
     overlay.hidden = false;
 
-    function closeWelcome(goToSearch) {
-      overlay.hidden = true;
+    let dragging = false;
+    let completed = false;
+    let progress = 0;
+    let maxTravel = 0;
+    const completionThreshold = 0.96;
+
+    function measureSlider() {
+      maxTravel = Math.max(0, slider.clientWidth - thumb.offsetWidth - 10);
+    }
+
+    function updateSlider(value) {
+      progress = Math.min(1, Math.max(0, value));
+      slider.style.setProperty("--slide-progress", `${progress * 100}%`);
+      slider.style.setProperty("--slide-offset", `${progress * maxTravel}px`);
+      thumb.setAttribute("aria-valuenow", String(Math.round(progress * 100)));
+      thumb.setAttribute(
+        "aria-valuetext",
+        progress >= completionThreshold ? "Complete" : `${Math.round(progress * 100)} percent`
+      );
+    }
+
+    function closeWelcome() {
+      if (completed) return;
+      completed = true;
+      updateSlider(1);
+      label.textContent = "Opening your soundspace…";
+      thumb.disabled = true;
 
       try {
         localStorage.setItem("aurora_welcome_seen", "true");
       } catch {
-        // Continue even if browser storage is unavailable.
+        // Welcome can still close if storage is unavailable.
       }
 
-      if (goToSearch) openSearch();
+      window.setTimeout(() => {
+        overlay.hidden = true;
+        showPage("home");
+      }, 220);
     }
 
-    startButton?.addEventListener("click", () => {
-      closeWelcome(true);
+    function updateFromPointer(event) {
+      if (!dragging || !maxTravel) return;
+
+      const rect = slider.getBoundingClientRect();
+      const thumbCenter = event.clientX - rect.left - 5 - thumb.offsetWidth / 2;
+      updateSlider(thumbCenter / maxTravel);
+
+      if (progress >= completionThreshold) {
+        dragging = false;
+        closeWelcome();
+      }
+    }
+
+    thumb.addEventListener("pointerdown", event => {
+      if (completed) return;
+      measureSlider();
+      dragging = true;
+      thumb.setPointerCapture(event.pointerId);
+      event.preventDefault();
     });
 
-    skipButton?.addEventListener("click", () => {
-      closeWelcome(false);
+    thumb.addEventListener("pointermove", updateFromPointer);
+
+    function stopDragging() {
+      if (!dragging) return;
+      dragging = false;
+      if (!completed) updateSlider(0);
+    }
+
+    thumb.addEventListener("pointerup", stopDragging);
+    thumb.addEventListener("pointercancel", stopDragging);
+    thumb.addEventListener("lostpointercapture", stopDragging);
+
+    thumb.addEventListener("keydown", event => {
+      if (completed) return;
+
+      if (event.key === "ArrowRight" || event.key === "End") {
+        event.preventDefault();
+        updateSlider(event.key === "End" ? 1 : progress + 0.12);
+
+        if (progress >= completionThreshold) closeWelcome();
+      } else if (event.key === "Home" || event.key === "ArrowLeft") {
+        event.preventDefault();
+        updateSlider(0);
+      }
     });
+
+    window.addEventListener("resize", () => {
+      measureSlider();
+      updateSlider(progress);
+    });
+    measureSlider();
+    updateSlider(0);
   }
+
 
   // Keyboard shortcuts.
   document.addEventListener("keydown", event => {

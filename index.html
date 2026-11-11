@@ -278,80 +278,98 @@
 
 
 
-  <!-- FIRST VISIT WELCOME -->
+  <!-- AURORA GLASS WELCOME -->
   <div class="welcome-overlay" id="welcome-overlay" hidden>
-    <div class="welcome-card">
-      <span class="eyebrow">WELCOME TO AURORA DREAMWAVE</span>
-      <h2>Welcome to <span>AURORA.</span></h2>
+    <section class="welcome-card" aria-labelledby="welcome-title">
+      <header class="welcome-header">
+        <span class="welcome-eyebrow">A U R O R A · D R E A M W A V E</span>
+        <span class="welcome-version">WELCOME</span>
+      </header>
 
-      <p class="welcome-intro">
-        Your sound. Your universe. Your experience.
-      </p>
+      <div class="welcome-intro-block">
+        <h2 id="welcome-title">Welcome to <span>AURORA.</span></h2>
+        <p class="welcome-tagline">Your sound. Your universe. Your experience.</p>
+        <p class="welcome-description">
+          Discover your favourite sounds, build your own music collection
+          and enjoy a personal listening experience where technology
+          meets creativity.
+        </p>
+      </div>
 
-      <p>
-        Discover your favourite sounds, build your own music
-        collection and enjoy a personal listening experience
-        where technology meets creativity.
-      </p>
+      <div class="welcome-guide">
+        <h3>GETTING STARTED</h3>
 
-      <h3>HOW TO USE AURORA</h3>
+        <div class="welcome-steps">
+          <article class="welcome-step">
+            <span class="welcome-step-number">01</span>
+            <div>
+              <h4>Add Your Music</h4>
+              <p>Paste a YouTube video link and select Add &amp; Play.</p>
+            </div>
+          </article>
 
-      <div class="welcome-steps">
-        <div class="welcome-step">
-          <span>♫</span>
-          <div>
-            <strong>01 · Add Your Music</strong>
-            <p>Paste a YouTube video link and select Add & Play.</p>
-          </div>
-        </div>
+          <article class="welcome-step">
+            <span class="welcome-step-number">02</span>
+            <div>
+              <h4>Explore Your Library</h4>
+              <p>Find and revisit your saved music anytime.</p>
+            </div>
+          </article>
 
-        <div class="welcome-step">
-          <span>▤</span>
-          <div>
-            <strong>02 · Explore Your Library</strong>
-            <p>Find and revisit your saved music anytime.</p>
-          </div>
-        </div>
+          <article class="welcome-step">
+            <span class="welcome-step-number">03</span>
+            <div>
+              <h4>Save Your Favourites</h4>
+              <p>Use the heart icon to keep your favourite tracks close.</p>
+            </div>
+          </article>
 
-        <div class="welcome-step">
-          <span>♡</span>
-          <div>
-            <strong>03 · Save Your Favourites</strong>
-            <p>Use the heart icon to keep your favourite tracks close.</p>
-          </div>
-        </div>
+          <article class="welcome-step">
+            <span class="welcome-step-number">04</span>
+            <div>
+              <h4>Recently Played</h4>
+              <p>Revisit tracks from your listening history.</p>
+            </div>
+          </article>
 
-        <div class="welcome-step">
-          <span>◷</span>
-          <div>
-            <strong>04 · Recently Played</strong>
-            <p>Revisit tracks from your listening history.</p>
-          </div>
-        </div>
-
-        <div class="welcome-step">
-          <span>⏵</span>
-          <div>
-            <strong>05 · Control Your Experience</strong>
-            <p>Play, pause, skip tracks, adjust volume and manage playback.</p>
-          </div>
+          <article class="welcome-step">
+            <span class="welcome-step-number">05</span>
+            <div>
+              <h4>Control Your Experience</h4>
+              <p>Play, pause, skip tracks, adjust volume and manage playback.</p>
+            </div>
+          </article>
         </div>
       </div>
 
-      <p class="welcome-intro">
-        Playback availability depends on the original YouTube video
-        and your internet connection.
-      </p>
+      <div class="welcome-bottom">
+        <div>
+          <h3>Ready to begin?</h3>
+          <p>Your next favourite track is just one play away.</p>
+        </div>
 
-      <p><strong>Ready to begin?</strong> Your next favourite track is just one play away.</p>
+        <div class="welcome-slider" id="welcome-slider">
+          <button
+            class="welcome-slider-thumb"
+            id="welcome-slider-thumb"
+            type="button"
+            role="slider"
+            aria-label="Slide right to continue to Home"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+            aria-valuetext="Not started"
+          >
+            <span aria-hidden="true">→</span>
+          </button>
+          <span class="welcome-slider-label" id="welcome-slider-label">
+            Slide right to continue
+          </span>
+        </div>
+      </div>
 
-      <button class="primary-button" id="welcome-start-button">
-        Start Listening <span>↗</span>
-      </button>
-      <button class="welcome-skip" id="welcome-skip-button">Maybe later</button>
-
-      <p class="welcome-intro">Made for music. Designed for the experience.</p>
-    </div>
+      <p class="welcome-footer">MADE FOR MUSIC. DESIGNED FOR THE EXPERIENCE.</p>
+    </section>
   </div>
 
   <script src="https://www.youtube.com/iframe_api"></script>
